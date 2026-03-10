@@ -1,0 +1,3 @@
+def extract(*args: Any, **kwargs: Any):
+  """Top-level API: lx.extract(...)."""
+  return extract_func(*args, **kwargs)

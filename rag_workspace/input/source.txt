@@ -1,0 +1,11 @@
+@dataclasses.dataclass
+class ExampleData:
+  """A single training/example data instance for a structured prompting.
+
+  Attributes:
+    text: The raw input text (sentence, paragraph, etc.).
+    extractions: A list of Extraction objects extracted from the text.
+  """
+
+  text: str
+  extractions: list[Extraction] = dataclasses.field(default_factory=list)

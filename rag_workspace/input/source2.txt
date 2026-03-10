@@ -1,0 +1,63 @@
+@dataclasses.dataclass(init=False)
+class Extraction:
+  """Represents an extraction extracted from text.
+
+  This class encapsulates an extraction's characteristics and its position
+  within the source text. It can represent a diverse range of information for
+  NLP information extraction tasks.
+
+  Attributes:
+    extraction_class: The class of the extraction.
+    extraction_text: The text of the extraction.
+    char_interval: The character interval of the extraction in the original
+      text.
+    alignment_status: The alignment status of the extraction.
+    extraction_index: The index of the extraction in the list of extractions.
+    group_index: The index of the group the extraction belongs to.
+    description: A description of the extraction.
+    attributes: A list of attributes of the extraction.
+    token_interval: The token interval of the extraction.
+  """
+
+  extraction_class: str
+  extraction_text: str
+  char_interval: CharInterval | None = None
+  alignment_status: AlignmentStatus | None = None
+  extraction_index: int | None = None
+  group_index: int | None = None
+  description: str | None = None
+  attributes: dict[str, str | list[str]] | None = None
+  _token_interval: tokenizer.TokenInterval | None = dataclasses.field(
+      default=None, repr=False, compare=False
+  )
+
+  def __init__(
+      self,
+      extraction_class: str,
+      extraction_text: str,
+      *,
+      token_interval: tokenizer.TokenInterval | None = None,
+      char_interval: CharInterval | None = None,
+      alignment_status: AlignmentStatus | None = None,
+      extraction_index: int | None = None,
+      group_index: int | None = None,
+      description: str | None = None,
+      attributes: dict[str, str | list[str]] | None = None,
+  ):
+    self.extraction_class = extraction_class
+    self.extraction_text = extraction_text
+    self.char_interval = char_interval
+    self._token_interval = token_interval
+    self.alignment_status = alignment_status
+    self.extraction_index = extraction_index
+    self.group_index = group_index
+    self.description = description
+    self.attributes = attributes
+
+  @property
+  def token_interval(self) -> tokenizer.TokenInterval | None:
+    return self._token_interval
+
+  @token_interval.setter
+  def token_interval(self, value: tokenizer.TokenInterval | None) -> None:
+    self._token_interval = value

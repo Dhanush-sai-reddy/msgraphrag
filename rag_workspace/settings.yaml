@@ -1,0 +1,100 @@
+basic_search:
+  completion_model_id: default_completion_model
+  embedding_model_id: default_embedding_model
+  prompt: prompts/basic_search_system_prompt.txt
+cache:
+  storage:
+    base_dir: cache
+    type: file
+  type: json
+chunking:
+  encoding_model: o200k_base
+  overlap: 100
+  size: 1200
+  type: tokens
+cluster_graph:
+  max_cluster_size: 10
+community_reports:
+  completion_model_id: default_completion_model
+  graph_prompt: prompts/community_report_graph.txt
+  max_input_length: 8000
+  max_length: 2000
+  text_prompt: prompts/community_report_text.txt
+completion_models:
+  default_completion_model:
+    api_base: http://localhost:11434/v1
+    api_key: ${GRAPHRAG_API_KEY}
+    auth_method: api_key
+    model: gemma3:1b
+    model_provider: openai
+    retry:
+      type: exponential_backoff
+drift_search:
+  completion_model_id: default_completion_model
+  embedding_model_id: default_embedding_model
+  prompt: prompts/drift_search_system_prompt.txt
+  reduce_prompt: prompts/drift_search_reduce_prompt.txt
+embed_text:
+  embedding_model_id: default_embedding_model
+embedding_models:
+  default_embedding_model:
+    api_base: http://localhost:11434/v1
+    api_key: ${GRAPHRAG_API_KEY}
+    auth_method: api_key
+    model: qwen3-embedding:latest
+    model_provider: openai
+    retry:
+      type: exponential_backoff
+extract_claims:
+  completion_model_id: default_completion_model
+  description: Any claims or facts that could be relevant to information discovery.
+  enabled: false
+  max_gleanings: 1
+  prompt: prompts/extract_claims.txt
+extract_graph:
+  completion_model_id: default_completion_model
+  entity_types:
+  - organization
+  - person
+  - geo
+  - event
+  max_gleanings: 1
+  prompt: prompts/extract_graph.txt
+extract_graph_nlp:
+  text_analyzer:
+    extractor_type: regex_english
+global_search:
+  completion_model_id: default_completion_model
+  knowledge_prompt: prompts/global_search_knowledge_system_prompt.txt
+  map_prompt: prompts/global_search_map_system_prompt.txt
+  reduce_prompt: prompts/global_search_reduce_system_prompt.txt
+input:
+  type: text
+input_storage:
+  base_dir: input
+  type: file
+local_search:
+  completion_model_id: default_completion_model
+  embedding_model_id: default_embedding_model
+  prompt: prompts/local_search_system_prompt.txt
+output_storage:
+  base_dir: output
+  type: file
+reporting:
+  base_dir: logs
+  type: file
+skip_workflows:
+- create_base_text_units
+- create_base_extracted_entities
+- create_summarized_entities
+- create_base_entity_graph
+snapshots:
+  embeddings: false
+  graphml: false
+summarize_descriptions:
+  completion_model_id: default_completion_model
+  max_length: 500
+  prompt: prompts/summarize_descriptions.txt
+vector_store:
+  db_uri: output\lancedb
+  type: lancedb

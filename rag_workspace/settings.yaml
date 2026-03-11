@@ -22,10 +22,10 @@ community_reports:
   text_prompt: prompts/community_report_text.txt
 completion_models:
   default_completion_model:
-    api_base: http://localhost:11434/v1
+    api_base: http://localhost:8000/v1
     api_key: ${GRAPHRAG_API_KEY}
     auth_method: api_key
-    model: gemma3:1b
+    model: ${GRAPHRAG_LLM_MODEL}
     model_provider: openai
     retry:
       type: exponential_backoff

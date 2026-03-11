@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 with open(Path(__file__).resolve().parent / "settings.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-PROVIDER = "ollama"  # Force to ollama based on the environment setup for now
+PROVIDER = "vllm"  # Force to vllm based on the environment setup
 INPUT_DIR = config.get("input", {}).get("base_dir", "input")
 if not os.path.isabs(INPUT_DIR):
     INPUT_DIR = os.path.join(str(Path(__file__).resolve().parent), INPUT_DIR)
@@ -33,9 +33,9 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Resolve provider-specific settings from the MS GraphRAG structure
 provider_cfg = config.get("completion_models", {}).get("default_completion_model", {})
-MODEL_NAME = provider_cfg.get("model", "gemma3:1b")
-MODEL_URL = provider_cfg.get("api_base", "http://localhost:11434/v1")
-API_KEY = "ollama"
+MODEL_NAME = os.getenv("GRAPHRAG_LLM_MODEL", provider_cfg.get("model", "meta-llama/Meta-Llama-3-8B-Instruct"))
+MODEL_URL = provider_cfg.get("api_base", "http://localhost:8000/v1")
+API_KEY = "vllm"
 
 def build_model():
     """Build the LangExtract model based on provider config."""
